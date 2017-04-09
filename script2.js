@@ -5,24 +5,6 @@
 // project 		: 20170322
 
 
-var coordinate = ol.proj.transform(
-	[13.327091, 52.512181],
-	'EPSG:4326',
-	'EPSG:3857'
-);
-
-var map = new ol.Map({
-	target: 'map',
-	layers: [
-		new ol.layer.Tile({source: new ol.source.OSM()})
-		//new ol.layer.Tile({source: new ol.source.Vector()})
-	],
-	view: new ol.View({
-		center: coordinate,
-		zoom: 13
-	})
-});
-
 var popupStr = '<div class="box_yellow" id="easierelement1"><b><a href="20170103.html">Einfacheres Element</a></b></div>';
 
 
@@ -82,21 +64,7 @@ function createPolygonStyle() {
 	};
 };
 			
-// var createPolygonStyle = function() {
-// 	return function(feature, resolution) {
-// 		var style = new ol.style.Style({
-// 			stroke: new ol.style.Stroke({
-// 				color: setInterval(classifyColors(feature), 3000),
-// 				width: 1
-// 			}),
-// 			fill: new ol.style.Fill({
-// 				// color: setInterval(classifyColors(feature), 3000)
-// 				color: classifyColors(feature)
-// 			})
-// 		});
-// 		return style;
-// 	};
-// };
+
 
 var gjOverlay = new ol.layer.Vector({
 	source: new ol.source.Vector({
