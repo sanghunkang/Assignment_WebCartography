@@ -26,6 +26,7 @@ var lyr_tile = new ol.layer.Tile({
 
 // Load Restaurants
 var lyr_vector_res = new ol.layer.Vector({
+	id: 'res',
 	source: new ol.source.Vector({
 	    url: 'data/res.geojson',
 	    projection: 'EPSG:4326',
@@ -70,24 +71,6 @@ var map = new ol.Map({
 
 // RESTAURANTS
 // Styler function for restaurant features
-var popup = new ol.Overlay({
-  element: document.getElementById('popup')
-});
-
-
-var container = document.getElementById('popup');
-var content = document.getElementById('popup-content');
-var closer = document.getElementById('popup-closer');
-
-
-var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
-	element: container,
-	autoPan: true,
-	autoPanAnimation: {
-	  duration: 250
-	}
-}));
-
 
 
 var selectClick = new ol.interaction.Select({
@@ -128,20 +111,89 @@ function toggleControl(element) {
     }
 }
 
-var polygonLayer = new ol.layer.Vector("Polygon Layer");
+var popup = new ol.Overlay({
+  element: document.getElementById('popup')
+});
+
+// var osmLayer = new ol.layer.Tile({
+// 	source: new ol.source.OSM()
+// });
+
+// var selectEuropa = new ol.style.Style({
+//   stroke: new ol.style.Stroke({
+//     color: '#ff0000',
+//     width: 2
+// })
+// });
+
+// var defaultEuropa = new ol.style.Style({
+// 	stroke: new ol.style.Stroke({
+// 		color: '#0000ff',
+// 		width: 2
+// 	})
+// });
+
+// var vectorEuropa = new ol.layer.Vector({
+// 	id: 'europa',
+// 	source: new ol.source.GeoJSON({
+// 	projection: 'EPSG:3857',
+// 	url: '../assets/data/nutsv9_lea.geojson'
+// }),
+// 	style: defaultEuropa
+// });
+
+var selectInteraction = new ol.interaction.Select({
+	layers: function (layer) {
+		return layer.get('id') == 'res';
+	}
+});      
+
+function pickRandomProperty() {
+	var prefix = ['bottom', 'center', 'top'];
+	var randPrefix = prefix[Math.floor(Math.random() * prefix.length)];
+	var suffix = ['left', 'center', 'right'];
+	var randSuffix = suffix[Math.floor(Math.random() * suffix.length)];
+	return randPrefix + '-' + randSuffix;
+}
+
+
+
+
+
+// map.on('click', function(evt) {
+// 	var coordinate = evt.coordinate;
+// 	displayFeatureInfo(evt.pixel, coordinate);
+// });
 
 // Initialise the Document
 $(document).ready(function(){
-	// map.addOverlay(overlay);
+	var container = $('#popup');
+	console.log(container);
+
+	var displayFeatureInfo = function(pixel, coordinate) {
+		var features = [];
+		map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+			features.push(feature);
+		});
+
+		if (features.length > 0) {
+			var info = [];
+			for (var i = 0, ii = features.length; i < ii; ++i) {
+				info.push(features[i].get('N3NM'));
+			}
+			// container.innerHTML = info.join(', ') || '(unknown)';
+			container.innerHTML = 'It is clicked finally';
+			var randomPositioning = pickRandomProperty();
+			popup.setPositioning(randomPositioning);
+			popup.setPosition(coordinate);
+		} else {
+			container.innerHTML = '&nbsp;';
+		}
+	};
+
 	map.addInteraction(selectClick);
 	map.addInteraction(hoverInteraction);
+	map.addOverlay(popup);
 });
-
-// map = new OpenLayers.Map('map');
-// var wmsLayer = new OpenLayers.Layer.WMS( "OpenLayers WMS", 
-//     "http://vmap0.tiles.osgeo.org/wms/vmap0?", {layers: 'basic'}); 
-
-// map.addLayers([wmsLayer, polygonLayer]);
-    
     
     

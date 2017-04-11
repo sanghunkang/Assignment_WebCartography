@@ -40,12 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<h1>ASSIGNMENT WEB CARTOGRAPHY</h1>	
 
 	<div class="map" style="width:510px; height:360px" id="map">
+		<div id="popup" class="ol-popup"></div>
 	</div>
-	<div id="popup" class="ol-popup">
-		<a href="#" id="popup-closer" class="ol-popup-closer"></a>
-		<div id="popup-content"></div>
-	</div>
-	<ul id="controlToggle">
+	
+	<!-- <ul id="controlToggle">
         <li>
             <input type="radio" name="type" value="none" id="noneToggle" onclick="toggleControl(this);" checked="checked" />
             <label for="noneToggle">navigate</label>
@@ -59,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="selectToggle">select polygon on click</label>
         </li>
     </ul>
-
+ -->
 
 <?php
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
