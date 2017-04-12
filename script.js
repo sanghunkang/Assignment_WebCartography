@@ -25,12 +25,15 @@ var image = new ol.style.Circle({
 	stroke: new ol.style.Stroke({color: 'red', width: 1})
 });
 
-var styles = {
-	'Point': new ol.style.Style({image: image}),
-	'MultiPoint': new ol.style.Style({image: image}),
-};
 
 var styleFunction = function(feature) {
+	// debugger;
+	var styles = {
+		'Point': new ol.style.Style({
+			text: new ol.style.Text({text: feature.I.name}),
+			image: image,
+		}),
+	};
 	return styles[feature.getGeometry().getType()];
 };
 
