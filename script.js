@@ -110,7 +110,7 @@ $(document).ready(function(){
 
 			// += html;
 			// $('select').empty();
-			$('select').append( html );
+			$('select').append( html ).selectpicker('refresh');
 
 		};
 	});

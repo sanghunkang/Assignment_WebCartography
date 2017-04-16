@@ -76,10 +76,10 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Dashboard</a></li>
-				<li><a href="#">Settings</a></li>
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">Help</a></li>
+				<li><a target="_self" href="#">My Favourites</a></li>
+				<li><a target="_self" href="#">Settings</a></li>
+				<li><a target="_self" href="#">Profile</a></li>
+				<li><a target="_self" href="#">Help</a></li>
 			</ul>
 			<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Search...">
@@ -91,73 +91,71 @@
 <div class="container-fluid">
 <div class="row">
 	<div class="col-sm-3 col-md-4 sidebar">
-		<select class="selectpicker" data-live-search="true" id="select1">
-		  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-		  <option data-tokens="mustard">Burger, Shake and a Smile</option>
-		  <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-		</select>
+		<form class="form-inline">
+	    <label>Action type &nbsp;</label>
+	      <select id="type" class="form-control">
+	        <option value="click" selected>Click</option>
+	        <option value="singleclick">Single-click</option>
+	        <option value="pointermove">Hover</option>
+	        <option value="altclick">Alt+Click</option>
+	        <option value="none">None</option>
+	      </select>
+	    <span id="status">&nbsp;0 selected features</span>
+	    <br>
+	    <label>Style &nbsp;</label>
+	    <select class="form-control selectpicker" data-live-search="true" id="select1">
+			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+			</select>
+	    <label>Price &nbsp;</label>
+			<select class="form-control selectpicker" data-live-search="true" id="select1">
+			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+			</select>
 
+			<label>Point of Interest &nbsp;</label>
+			<select class="form-control selectpicker" data-live-search="true" id="select1">
+			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+			</select>
+	  </form>
+		
 		<ul class="nav nav-sidebar">
 			<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-			<li><a href="#">Reports</a></li>
-			<li><a href="#">Analytics</a></li>
-			<li><a href="#">Export</a></li>
-		</ul>
-		<ul class="nav nav-sidebar">
-			<li><a href="">Nav item</a></li>
-			<li><a href="">Nav item again</a></li>
-			<li><a href="">One more nav</a></li>
-			<li><a href="">Another nav item</a></li>
-			<li><a href="">More navigation</a></li>
-		</ul>
-		<ul class="nav nav-sidebar">
-			<li><a href="">Nav item again</a></li>
-			<li><a href="">One more nav</a></li>
-			<li><a href="">Another nav item</a></li>
+			<li><a target="_self" href="#">Reports</a></li>
+			<li><a target="_self" href="#">Analytics</a></li>
+			<li><a target="_self" href="#">Export</a></li>
 		</ul>
 	</div>
-<div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main">
-	<h1 class="page-header">Today's Recommendations</h1>
-	<div class="row placeholders">
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-	</div>
+<div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main" id="map">
+	<h1 class="page-header">Today's Recommendations Bring me... &nbsp;</h1>
 
-	<div class="map" style="width:1000px; height:300px" >
-	</div>
+	<!-- <div class="row placeholders">
+		<div class="col-xs-6 col-sm-3 placeholder">
+			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+			<h4>Label</h4>
+			<span class="text-muted">Something else</span>
+		</div>
+		<div class="col-xs-6 col-sm-3 placeholder">
+			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+			<h4>Label</h4>
+			<span class="text-muted">Something else</span>
+		</div>
+		<div class="col-xs-6 col-sm-3 placeholder">
+			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+			<h4>Label</h4>
+			<span class="text-muted">Something else</span>
+		</div>
+		<div class="col-xs-6 col-sm-3 placeholder">
+			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+			<h4>Label</h4>
+			<span class="text-muted">Something else</span>
+		</div>
+	</div> -->
+
+<!-- 	<div class="map" style="width:1000px; height:300px" id="map">
+	</div> -->
 	<div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
     <div id="popup-content"></div>
   </div>
-	<form class="form-inline">
-    <label>Action type &nbsp;</label>
-      <select id="type" class="form-control">
-        <option value="click" selected>Click</option>
-        <option value="singleclick">Single-click</option>
-        <option value="pointermove">Hover</option>
-        <option value="altclick">Alt+Click</option>
-        <option value="none">None</option>
-      </select>
-    <span id="status">&nbsp;0 selected features</span>
-  </form>
 </div>
 
 <script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js></script>
