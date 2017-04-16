@@ -57,6 +57,25 @@ var lyr_v1 = new ol.layer.Vector({
 	style: styleFunction,
 });
 
+var selectClick = new ol.interaction.Select({
+	condition: ol.events.condition.click
+});
+
+var selectPointerMove = new ol.interaction.Select({
+	condition: ol.events.condition.pointerMove
+});
+
+function onMouseMove(browserEvent) {
+	var coordinate = browserEvent.coordinate;
+	var pixel = map.getPixelFromCoordinate(coordinate);
+	var el = document.getElementById('name');
+	el.innerHTML = '';
+	map.forEachFeatureAtPixel(pixel, function(feature) {
+	  el.innerHTML += feature.get('name') + '<br>';
+	});
+};
+
+
 // LAYER VECTOR2
 var source_v2 = new ol.source.Vector({wrapX: false}); 
 var lyr_v2 = new ol.layer.Vector({
@@ -73,33 +92,59 @@ var map = new ol.Map({
 	})
 });
 
-
-
-
 $(document).ready(function(){
 	// ACTIONS
-	var typeSelect = document.getElementById('type');
-	// var typeSelect = $('#type');
-	console.log($('#type'))
-	var draw; // global so we can remove it later
-	function addInteraction() {
-		var value = typeSelect.value;
-		if (value !== 'None') {
-			draw = new ol.interaction.Draw({
-				source: source_v2,
-				type: typeSelect.value, /** @type {ol.geom.GeometryType} */ 
-			});
-			console.log(typeSelect.value);
-			map.addInteraction(draw);
+	/**
+	* Add a click handler to hide the popup.
+	* @return {boolean} Don't follow the href.
+	*/
+
+
+	
+
+
+	// LAYER OVERLAY1
+	var container = document.getElementById('popup');
+	var content = document.getElementById('popup-content');
+	var closer = document.getElementById('popup-closer');
+	// var container = $('#popup');
+	// var content = $('#popup-content');
+	// var closer = $('#popup-closer');
+	// var typeSelect = $(document).getElementById('type');
+	var lyr_o1 = new ol.Overlay(({
+		element: container,
+		autoPan: true,
+		autoPanAnimation: {
+			duration: 250
 		}
+	}));
+
+	closer.onclick = function() {
+		lyr_o1.setPosition(undefined);
+		closer.blur();
+		return false;
 	};
 
-	/**
-	* Handle change event.
-	*/
-	typeSelect.onchange = function() {
-		map.removeInteraction(draw);
-		addInteraction();
-	};
-	addInteraction();
+	map.addOverlay(lyr_o1)
+	map.on('singleclick', function(evt) {
+		var coordinate = evt.coordinate;
+		var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326'));
+		content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
+			'</code>';
+		lyr_o1.setPosition(coordinate);
+	});
+
+	var select = selectClick;  // ref to currently selected interaction
+	var selectElement = document.getElementById('type');
+	
+	map.addInteraction(select);
+	select.on('select', function(e) {
+		// debugger;
+		console.log(e.selected);
+		document.getElementById('status').innerHTML = '&nbsp;' +
+		    e.target.getFeatures().getLength() +
+		    ' selected features (last operation selected ' + e.selected.length + e.selected.getProperties()['name'] +
+		    ' and deselected ' + e.deselected.length + ' features)';
+
+	});
 });

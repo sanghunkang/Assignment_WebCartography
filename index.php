@@ -38,7 +38,7 @@
 
 		  <div class="inner cover">
 			<h1 class="cover-heading">Assignment for Web Cartography</h1>
-			<p class="lead">I hope it be enjoyable, although I struggled quite much for building this website</p><br><br><br><br>
+			<p class="lead">I hope it be enjoyable, although I struggled quite much for building this website</p>
 			<p class="lead">
 			  <a target="_self" href="main.php" class="btn btn-lg btn-default">Learn more</a>
 			</p>
