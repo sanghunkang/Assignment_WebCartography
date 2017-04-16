@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
 <link href="dashboard.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet" type="text/css">
@@ -89,7 +90,13 @@
 
 <div class="container-fluid">
 <div class="row">
-	<div class="col-sm-3 col-md-2 sidebar">
+	<div class="col-sm-3 col-md-4 sidebar">
+		<select class="selectpicker" data-live-search="true" id="select1">
+		  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+		  <option data-tokens="mustard">Burger, Shake and a Smile</option>
+		  <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+		</select>
+
 		<ul class="nav nav-sidebar">
 			<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 			<li><a href="#">Reports</a></li>
@@ -109,7 +116,7 @@
 			<li><a href="">Another nav item</a></li>
 		</ul>
 	</div>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main">
 	<h1 class="page-header">Today's Recommendations</h1>
 	<div class="row placeholders">
 		<div class="col-xs-6 col-sm-3 placeholder">
@@ -134,7 +141,7 @@
 		</div>
 	</div>
 
-	<div class="map" style="width:1000px; height:300px" id="map">
+	<div class="map" style="width:1000px; height:300px" >
 	</div>
 	<div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -155,6 +162,7 @@
 
 <script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src=https://openlayers.org/en/v4.0.1/build/ol.js type=text/javascript></script>
 <script src=script.js type=text/javascript></script>
 

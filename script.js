@@ -92,17 +92,34 @@ var map = new ol.Map({
 	})
 });
 
+// var poi1 = JSON.parse('data/res.geojson');
+// document.getElementById('status').innerHTML += 
+
+
 $(document).ready(function(){
+
+	$.getJSON('data/res.geojson', function(response) {
+		var poi1= response;
+		console.log(poi1);
+		for(var i =0; i < 10; i ++) {
+			// html = '<option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>'
+			var name_res = poi1.features[i].properties.name;
+			console.log(name_res);
+			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
+			console.log(html);
+
+			// += html;
+			// $('select').empty();
+			$('select').append( html );
+
+		};
+	});
+
 	// ACTIONS
 	/**
 	* Add a click handler to hide the popup.
 	* @return {boolean} Don't follow the href.
 	*/
-
-
-	
-
-
 	// LAYER OVERLAY1
 	var container = document.getElementById('popup');
 	var content = document.getElementById('popup-content');
@@ -126,12 +143,14 @@ $(document).ready(function(){
 	};
 
 	map.addOverlay(lyr_o1)
-	map.on('singleclick', function(evt) {
-		var coordinate = evt.coordinate;
+	map.on('singleclick', function(e) {
+		var coordinate = e.coordinate;
 		var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326'));
-		content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
-			'</code>';
-		lyr_o1.setPosition(coordinate);
+		console.log(e.target);
+		var res_name = e.target.getProperties()['name'];
+		// content.innerHTML = '<p>You clicked here:</p><code>' + hdms + res_name
+		// 	'</code>';
+		// lyr_o1.setPosition(coordinate);
 	});
 
 	var select = selectClick;  // ref to currently selected interaction
@@ -140,11 +159,14 @@ $(document).ready(function(){
 	map.addInteraction(select);
 	select.on('select', function(e) {
 		// debugger;
-		console.log(e.selected);
 		document.getElementById('status').innerHTML = '&nbsp;' +
 		    e.target.getFeatures().getLength() +
-		    ' selected features (last operation selected ' + e.selected.length + e.selected.getProperties()['name'] +
+		    ' selected features (last operation selected ' + e.selected.length + e.selected[0].getProperties()['name'] +
 		    ' and deselected ' + e.deselected.length + ' features)';
-
+		var res_name = e.selected[0].getProperties()['name'];
+		content.innerHTML = '<p>You clicked here:</p><code>' + res_name
+			'</code>';
+		var coordinate = e.selected[0].getGeometry().getCoordinates();
+		lyr_o1.setPosition(coordinate);
 	});
 });

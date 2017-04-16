@@ -136,4 +136,5 @@ $(document).ready(function(){
 	map.addOverlay(gjOverlay);
 	map.addOverlay(marker);
 	// animation = setInterval(showValuesOnMap, 500, 'feature');
+
 });
