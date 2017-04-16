@@ -164,6 +164,7 @@ $(document).ready(function(){
 		    ' selected features (last operation selected ' + e.selected.length + e.selected[0].getProperties()['name'] +
 		    ' and deselected ' + e.deselected.length + ' features)';
 		var res_name = e.selected[0].getProperties()['name'];
+		$('#some-box').append(res_name);
 		content.innerHTML = '<p>You clicked here:</p><code>' + res_name
 			'</code>';
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
