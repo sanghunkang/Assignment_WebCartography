@@ -107,12 +107,12 @@
 			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
 			</select>
 	    <label>Price &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select1">
+			<select class="form-control selectpicker" data-live-search="true" id="select2">
 			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
 			</select>
 
 			<label>Point of Interest &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select1">
+			<select class="form-control selectpicker" data-live-search="true" id="select3">
 			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
 			</select>
 	  </form>

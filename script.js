@@ -22,7 +22,7 @@ var source_v1 = new ol.source.Vector({
 function lyr_v1_style_text(feature){
 	style_text = new ol.style.Text({
 		text: feature.getProperties()['name'],
-		font: '20px Calibri bold,sans-serif',
+		font: '10px Calibri bold, sans-serif',
 	});
 	return style_text
 };
@@ -36,7 +36,7 @@ function lyr_v1_style_image(feature) {
 	return style_image
 };
 
-function styleFunction_point(feature){
+function styleFunction_lyr_v1(feature){
 	var styles = new ol.style.Style({
 		text: lyr_v1_style_text(feature),
 		image: lyr_v1_style_image(feature),
@@ -44,17 +44,109 @@ function styleFunction_point(feature){
 	return styles;
 };
 
-var styleFunction = function(feature) {
+var style_lyr_v1 = function(feature) {
 	var geom = feature.getGeometry().getType();
 	if(geom == 'Point') {
-		var styles = styleFunction_point(feature);
+		var styles = styleFunction_lyr_v1(feature);
 	};
 	return styles;
 };
 
 var lyr_v1 = new ol.layer.Vector({
 	source: source_v1,
-	style: styleFunction,
+	style: style_lyr_v1,
+});
+
+// LAYER VECTOR2
+var source_v2 = new ol.source.Vector({
+	url: 'data/poi.geojson',
+	projection: 'EPSG:4326',
+	format: new ol.format.GeoJSON(),
+});
+// vectorSource.addFeature(new ol.Feature(new ol.geom.Circle([5e6, 7e6], 1e6)));
+
+function lyr_v2_style_text(feature){
+	style_text = new ol.style.Text({
+		text: feature.getProperties()['name'],
+		font: '20px Calibri bold,sans-serif',
+	});
+	return style_text
+};
+
+function lyr_v2_style_image(feature) {
+	var style_image = new ol.style.Circle({
+		radius: 10,
+		fill: new ol.style.Fill({color: 'rgba(0, 255, 255, 0.5)'}),
+		stroke: new ol.style.Stroke({color: 'green', width: 1})
+	});
+	return style_image
+};
+
+function styleFunction_lyr_v2(feature){
+	var styles = new ol.style.Style({
+		text: lyr_v2_style_text(feature),
+		image: lyr_v2_style_image(feature),
+	});
+	return styles;
+};
+
+var style_lyr_v2 = function(feature) {
+	var geom = feature.getGeometry().getType();
+	if(geom == 'Point') {
+		var styles = styleFunction_lyr_v2(feature);
+	};
+	return styles;
+};
+
+var lyr_v2 = new ol.layer.Vector({
+	source: source_v2,
+	style: style_lyr_v2,
+});
+
+// LAYER VECTOR3
+var source_v3 = new ol.source.Vector({
+	url: 'data/att.geojson',
+	projection: 'EPSG:4326',
+	format: new ol.format.GeoJSON(),
+});
+// vectorSource.addFeature(new ol.Feature(new ol.geom.Circle([5e6, 7e6], 1e6)));
+
+function lyr_v3_style_text(feature){
+	style_text = new ol.style.Text({
+		text: feature.getProperties()['name'],
+		font: '5px Calibri bold,sans-serif',
+	});
+	return style_text
+};
+
+function lyr_v3_style_image(feature) {
+	var style_image = new ol.style.Circle({
+		radius: 10,
+		fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.5)'}),
+		stroke: new ol.style.Stroke({color: 'blue', width: 1})
+	});
+	return style_image
+};
+
+function styleFunction_lyr_v3(feature){
+	var styles = new ol.style.Style({
+		text: lyr_v3_style_text(feature),
+		image: lyr_v3_style_image(feature),
+	});
+	return styles;
+};
+
+var style_lyr_v3 = function(feature) {
+	var geom = feature.getGeometry().getType();
+	if(geom == 'Point') {
+		var styles = styleFunction_lyr_v3(feature);
+	};
+	return styles;
+};
+
+var lyr_v3 = new ol.layer.Vector({
+	source: source_v3,
+	style: style_lyr_v3,
 });
 
 var selectClick = new ol.interaction.Select({
@@ -77,41 +169,44 @@ function onMouseMove(browserEvent) {
 
 
 // LAYER VECTOR2
-var source_v2 = new ol.source.Vector({wrapX: false}); 
-var lyr_v2 = new ol.layer.Vector({
-	source: source_v2
+var source_v4 = new ol.source.Vector({wrapX: false}); 
+var lyr_v4 = new ol.layer.Vector({
+	source: source_v4
 });
 
 // MAP
 var map = new ol.Map({
 	target: 'map',
-	layers: [lyr_tile, lyr_v1, lyr_v2],
+	layers: [lyr_tile, lyr_v1, lyr_v2, lyr_v3, lyr_v4],
 	view: new ol.View({
 		center: ol.proj.transform([13.327091, 52.512181],'EPSG:4326','EPSG:3857'),
 		zoom: 13,
 	})
 });
 
-// var poi1 = JSON.parse('data/res.geojson');
-// document.getElementById('status').innerHTML += 
-
 
 $(document).ready(function(){
-
 	$.getJSON('data/res.geojson', function(response) {
-		var poi1= response;
-		console.log(poi1);
 		for(var i =0; i < 10; i ++) {
-			// html = '<option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>'
-			var name_res = poi1.features[i].properties.name;
-			console.log(name_res);
+			var name_res = response.features[i].properties.name;
 			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
-			console.log(html);
+			$('#select1').append( html ).selectpicker('refresh');
+		};
+	});
 
-			// += html;
-			// $('select').empty();
-			$('select').append( html ).selectpicker('refresh');
+	$.getJSON('data/poi.geojson', function(response) {
+		for(var i =0; i < 10; i ++) {
+			var name_res = response.features[i].properties.name;
+			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
+			$('#select2').append( html ).selectpicker('refresh');
+		};
+	});
 
+	$.getJSON('data/att.geojson', function(response) {
+		for(var i =0; i < 10; i ++) {
+			var name_res = response.features[i].properties.name;
+			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
+			$('#select3').append( html ).selectpicker('refresh');
 		};
 	});
 
@@ -122,11 +217,9 @@ $(document).ready(function(){
 	*/
 	// LAYER OVERLAY1
 	var container = document.getElementById('popup');
-	var content = document.getElementById('popup-content');
+	// var content = document.getElementById('popup-content');
 	var closer = document.getElementById('popup-closer');
-	// var container = $('#popup');
-	// var content = $('#popup-content');
-	// var closer = $('#popup-closer');
+
 	// var typeSelect = $(document).getElementById('type');
 	var lyr_o1 = new ol.Overlay(({
 		element: container,
@@ -154,19 +247,20 @@ $(document).ready(function(){
 	});
 
 	var select = selectClick;  // ref to currently selected interaction
-	var selectElement = document.getElementById('type');
+	// var select = selectPointerMove;  // ref to currently selected interaction
+	// var selectElement = document.getElementById('type');
 	
 	map.addInteraction(select);
 	select.on('select', function(e) {
-		// debugger;
-		document.getElementById('status').innerHTML = '&nbsp;' +
-		    e.target.getFeatures().getLength() +
-		    ' selected features (last operation selected ' + e.selected.length + e.selected[0].getProperties()['name'] +
-		    ' and deselected ' + e.deselected.length + ' features)';
-		var res_name = e.selected[0].getProperties()['name'];
-		$('#some-box').append(res_name);
-		content.innerHTML = '<p>You clicked here:</p><code>' + res_name
-			'</code>';
+		var properties = e.selected[0].getProperties();
+		$('#status').append('&nbsp;' + properties['name']);
+
+		$('#some-box').empty();
+		$('#some-box').append(properties['name']);
+
+		$('#popup-content').empty()
+		$('#popup-content').append('<p>You clicked here:</p><code>' + properties['name'] + '</code>');
+		// content.innerHTML = '<p>You clicked here:</p><code>' + properties['name'] + '</code>';
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
 		lyr_o1.setPosition(coordinate);
 	});
