@@ -184,7 +184,6 @@ var map = new ol.Map({
 	})
 });
 
-
 $(document).ready(function(){
 	$.getJSON('data/res.geojson', function(response) {
 		for(var i =0; i < 10; i ++) {
@@ -210,30 +209,20 @@ $(document).ready(function(){
 		};
 	});
 
-	// ACTIONS
-	/**
-	* Add a click handler to hide the popup.
-	* @return {boolean} Don't follow the href.
-	*/
-	// LAYER OVERLAY1
-	var container = document.getElementById('popup');
-	// var content = document.getElementById('popup-content');
-	var closer = document.getElementById('popup-closer');
-
 	// var typeSelect = $(document).getElementById('type');
 	var lyr_o1 = new ol.Overlay(({
-		element: container,
+		element: document.getElementById('popup'),
 		autoPan: true,
 		autoPanAnimation: {
 			duration: 250
 		}
 	}));
 
-	closer.onclick = function() {
+	$('#popup-closer').click(function() {
 		lyr_o1.setPosition(undefined);
-		closer.blur();
+		$(this).blur();
 		return false;
-	};
+	});
 
 	map.addOverlay(lyr_o1)
 	map.on('singleclick', function(e) {
@@ -263,5 +252,17 @@ $(document).ready(function(){
 		// content.innerHTML = '<p>You clicked here:</p><code>' + properties['name'] + '</code>';
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
 		lyr_o1.setPosition(coordinate);
+	});
+
+	// function writeToFile(towrite){
+	//     var fso = new ActiveXObject("Scripting.FileSystemObject");
+	//     var fh = fso.OpenTextFile("data.txt", 8, false, 0);
+	//     fh.WriteLine(towrite);
+	//     fh.Close();
+	// }
+	var submit = document.getElementById("add");
+	$('#add').click(function () {
+		towrite = "Content to write";
+		writeToFile(towrite);
 	});
 });

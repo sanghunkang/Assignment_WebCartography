@@ -125,36 +125,13 @@
 		</ul>
 		<div id="some-box">
 			<h3>Some Box</h3>
+			<form action="save_preference.php" method="post">
+				<button type="button" class="btn btn-danger" id="add">Add to My List</button>
+			</form>
 		</div>
 	</div>
 <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main" id="map">
 	<h1 class="page-header">Today's Recommendations Bring me... &nbsp;</h1>
-
-	<!-- <div class="row placeholders">
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-		<div class="col-xs-6 col-sm-3 placeholder">
-			<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-			<h4>Label</h4>
-			<span class="text-muted">Something else</span>
-		</div>
-	</div> -->
-
-<!-- 	<div class="map" style="width:1000px; height:300px" id="map">
-	</div> -->
 	<div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
     <div id="popup-content"></div>

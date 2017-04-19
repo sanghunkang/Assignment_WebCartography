@@ -4,17 +4,6 @@
 // Last modified: 20170406(yyyymmdd)
 // project 		: 20170322
 
-
-var popupStr = '<div class="box_yellow" id="easierelement1"><b><a href="20170103.html">Einfacheres Element</a></b></div>';
-
-
-// var map.on('click', function(evt){
-// 	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
-// 		popup = new ol.Overlay({});
-// 		popup.set
-// 	})
-// })
-
 // var createPolygonStyle = function(){
 // 	return function(feature, resolution){
 // 		var style = new ol.style.Style({
@@ -74,16 +63,6 @@ var gjOverlay = new ol.layer.Vector({
 	}),
 	style: createPolygonStyle()
 });
-
-
-// feature!!
-var marker = new ol.Overlay({
-	element: document.getElementById('easierelement1'),
-	// element: $(popupStr)[0],
-	position: coordinate
-});
-
-// console.log(gjOverlay.features);
 
 var countIter = 0;
 // function showValuesOnMap(){
