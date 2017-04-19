@@ -3,7 +3,7 @@
 <head>
 <title>Exercise for Web Cartography</title>
 <base href="http://localhost/exerciseWC/" target="_blank">	
-
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
@@ -103,18 +103,20 @@
 	    <span id="status">&nbsp;0 selected features</span>
 	    <br>
 	    <label>Style &nbsp;</label>
-	    <select class="form-control selectpicker" data-live-search="true" id="select1">
-			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-			</select>
+	    <select class="form-control selectpicker" data-live-search="true" id="select1"></select>
+	    <br>
+	    <div class="ui-widget">
+			  <label for="tags">Tags: </label>
+			  <input id="tags">
+			</div>
 	    <label>Price &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select2">
-			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-			</select>
-
+			<select class="form-control selectpicker" data-live-search="true" id="select2"></select>
+			<br>
 			<label>Point of Interest &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select3">
-			  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-			</select>
+			<select class="form-control selectpicker" data-live-search="true" id="select3"></select>
+			<br>
+			<button type="button" class="btn btn-primary" id="go">go</button>
+			<br>
 	  </form>
 		
 		<ul class="nav nav-sidebar">
@@ -123,13 +125,17 @@
 			<li><a target="_self" href="#">Analytics</a></li>
 			<li><a target="_self" href="#">Export</a></li>
 		</ul>
-		<div id="some-box">
+		<div id="box1">
 			<h3>Some Box</h3>
-			<form action="save_preference.php" method="post">
-				<button type="button" class="btn btn-danger" id="add">Add to My List</button>
+		</div>
+		<div id="box2">
+			<form action="add_to_my_list.php" method="post">
+				<button type="button" class="btn btn-danger" id="add_to_my_list">Add to My List</button>
 			</form>
 		</div>
 	</div>
+
+
 <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main" id="map">
 	<h1 class="page-header">Today's Recommendations Bring me... &nbsp;</h1>
 	<div id="popup" class="ol-popup">
@@ -139,6 +145,8 @@
 </div>
 
 <script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src=https://openlayers.org/en/v4.0.1/build/ol.js type=text/javascript></script>

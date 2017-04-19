@@ -185,6 +185,34 @@ var map = new ol.Map({
 });
 
 $(document).ready(function(){
+    var availableTags = [
+		"ActionScript",
+		"AppleScript",
+		"Asp",
+		"BASIC",
+		"C",
+		"C++",
+		"Clojure",
+		"COBOL",
+		"ColdFusion",
+		"Erlang",
+		"Fortran",
+		"Groovy",
+		"Haskell",
+		"Java",
+		"JavaScript",
+		"Lisp",
+		"Perl",
+		"PHP",
+		"Python",
+		"Ruby",
+		"Scala",
+		"Scheme",
+	];
+	$( "#tags" ).autocomplete({
+		source: availableTags
+	});
+
 	$.getJSON('data/res.geojson', function(response) {
 		for(var i =0; i < 10; i ++) {
 			var name_res = response.features[i].properties.name;
@@ -209,7 +237,6 @@ $(document).ready(function(){
 		};
 	});
 
-	// var typeSelect = $(document).getElementById('type');
 	var lyr_o1 = new ol.Overlay(({
 		element: document.getElementById('popup'),
 		autoPan: true,
@@ -240,17 +267,24 @@ $(document).ready(function(){
 	// var selectElement = document.getElementById('type');
 	
 	map.addInteraction(select);
+	
 	select.on('select', function(e) {
+		var selected = e.selected[0];
+		var coordinate = e.selected[0].getGeometry().getCoordinates();
 		var properties = e.selected[0].getProperties();
+		
 		$('#status').append('&nbsp;' + properties['name']);
 
-		$('#some-box').empty();
-		$('#some-box').append(properties['name']);
+		$('#box1').empty();
+		// $('#box1').append('<hidden id="coord_res">' + coordinate + '</hidden>');
+		$('#box1').append('<p id="name_res">' + properties['name'] + '</p>');
+		$('#box1').append('<p id="address_res">' + properties['address'] + '</p>');
+		$('#box1').append('<p id="id_res">' + properties['id'] + '</p>');
+		$('#box1').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
 
 		$('#popup-content').empty()
 		$('#popup-content').append('<p>You clicked here:</p><code>' + properties['name'] + '</code>');
-		// content.innerHTML = '<p>You clicked here:</p><code>' + properties['name'] + '</code>';
-		var coordinate = e.selected[0].getGeometry().getCoordinates();
+		
 		lyr_o1.setPosition(coordinate);
 	});
 
@@ -260,9 +294,70 @@ $(document).ready(function(){
 	//     fh.WriteLine(towrite);
 	//     fh.Close();
 	// }
-	var submit = document.getElementById("add");
-	$('#add').click(function () {
-		towrite = "Content to write";
-		writeToFile(towrite);
+	// function createJsonFile() {
+	//     var jsonObject = {
+	//         "metros" : [],
+	//         "routes" : []
+	//     };
+
+	//     // write cities to JSON Object
+	//     for ( var index = 0; index < graph.getVerticies().length; index++) {
+	//         jsonObject.metros[index] = JSON.stringify("METRO");
+	//     }
+
+	//     // write routes to JSON Object
+	//     for ( var index = 0; index < graph.getEdges().length; index++) {
+	//         jsonObject.routes[index] = JSON.stringify("ROUTE");
+	//     }
+
+	//     // some jQuery to write to file
+	//     $.ajax({
+	//         type : "POST",
+	//         url : "save_preference.php",
+	//         dataType : 'json',
+	//         data : {
+	//             json : jsonObject
+	//         }
+	//     });
+	// };
+	$('#go').click(function () {
+		console.log(lyr_v1.getProperties());
+		for(var i = 0; i < lyr_v1.features.length; i++) { 
+		    if(lyr_v1.features[i].attributes.searchedAttribute == 'BurgerKing'){ 
+		    	selectFeatureControl.select(lyr_v1.features[i]); 
+		    	break; 
+			} 
+		};
+	});
+
+	$('#add_to_my_list').click(function () {
+		// debugger;
+		// console.log(towrite);
+		// writeToFile(towrite);
+		var geojsonObject = {
+			"features": [
+				{
+					"geometry":{
+						"coordinates": selected.getGeometry().getCoordinates(),
+						"type": "Point",
+					},
+					"properties": {
+						"address": $('#address_res').val(), 
+						"id": $('#id_res').val(), 
+						"name": $('#name_res').val(), 
+						"subCategory": $('#subCategory_res').val(),
+					}, 
+					"type": "Feature",
+				},
+			],
+	    };
+		$.ajax({
+	        type : "POST",
+	        url : "add_to_my_list.php",
+	        dataType : 'geojson',
+	        data : {
+	            json : geojsonObject
+	        }
+	    });
 	});
 });
