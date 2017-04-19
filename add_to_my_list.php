@@ -1,7 +1,7 @@
 <?php
 $geojson = $_POST['geojson'];
 $info = json_encode($geojson);
-$file = fopen('new_map_data.geojson','a+');
+$file = fopen('data\\preference.geojson','a+');
 fwrite($file, $info);
 fclose($file);
 ?>

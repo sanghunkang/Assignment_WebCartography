@@ -262,64 +262,28 @@ $(document).ready(function(){
 		// lyr_o1.setPosition(coordinate);
 	});
 
-	var select = selectClick;  // ref to currently selected interaction
-	// var select = selectPointerMove;  // ref to currently selected interaction
-	// var selectElement = document.getElementById('type');
-	
-	map.addInteraction(select);
-	
-	select.on('select', function(e) {
-		var selected = e.selected[0];
+	map.addInteraction(selectClick);
+	selectClick.on('select', function(e) {
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
 		var properties = e.selected[0].getProperties();
 		
+		$('#status').empty();
 		$('#status').append('&nbsp;' + properties['name']);
 
 		$('#box1').empty();
-		// $('#box1').append('<hidden id="coord_res">' + coordinate + '</hidden>');
+		$('#box1').append('<hidden id="coord_res">' + coordinate + '</hidden>');
 		$('#box1').append('<p id="name_res">' + properties['name'] + '</p>');
 		$('#box1').append('<p id="address_res">' + properties['address'] + '</p>');
 		$('#box1').append('<p id="id_res">' + properties['id'] + '</p>');
 		$('#box1').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
 
-		$('#popup-content').empty()
+		$('#popup-content').empty();
 		$('#popup-content').append('<p>You clicked here:</p><code>' + properties['name'] + '</code>');
 		
 		lyr_o1.setPosition(coordinate);
 	});
 
-	// function writeToFile(towrite){
-	//     var fso = new ActiveXObject("Scripting.FileSystemObject");
-	//     var fh = fso.OpenTextFile("data.txt", 8, false, 0);
-	//     fh.WriteLine(towrite);
-	//     fh.Close();
-	// }
-	// function createJsonFile() {
-	//     var jsonObject = {
-	//         "metros" : [],
-	//         "routes" : []
-	//     };
 
-	//     // write cities to JSON Object
-	//     for ( var index = 0; index < graph.getVerticies().length; index++) {
-	//         jsonObject.metros[index] = JSON.stringify("METRO");
-	//     }
-
-	//     // write routes to JSON Object
-	//     for ( var index = 0; index < graph.getEdges().length; index++) {
-	//         jsonObject.routes[index] = JSON.stringify("ROUTE");
-	//     }
-
-	//     // some jQuery to write to file
-	//     $.ajax({
-	//         type : "POST",
-	//         url : "save_preference.php",
-	//         dataType : 'json',
-	//         data : {
-	//             json : jsonObject
-	//         }
-	//     });
-	// };
 	$('#go').click(function () {
 		console.log(lyr_v1.getProperties());
 		for(var i = 0; i < lyr_v1.features.length; i++) { 
@@ -331,14 +295,11 @@ $(document).ready(function(){
 	});
 
 	$('#add_to_my_list').click(function () {
-		// debugger;
-		// console.log(towrite);
-		// writeToFile(towrite);
 		var geojsonObject = {
 			"features": [
 				{
 					"geometry":{
-						"coordinates": selected.getGeometry().getCoordinates(),
+						"coordinates": $('#coord_res').val(),
 						"type": "Point",
 					},
 					"properties": {
