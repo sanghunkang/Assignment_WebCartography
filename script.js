@@ -63,7 +63,6 @@ var source_v2 = new ol.source.Vector({
 	projection: 'EPSG:4326',
 	format: new ol.format.GeoJSON(),
 });
-// vectorSource.addFeature(new ol.Feature(new ol.geom.Circle([5e6, 7e6], 1e6)));
 
 function lyr_v2_style_text(feature){
 	style_text = new ol.style.Text({
@@ -155,7 +154,6 @@ var source_v4 = new ol.source.Vector({
 	projection: 'EPSG:4326',
 	format: new ol.format.GeoJSON(),
 });
-// vectorSource.addFeature(new ol.Feature(new ol.geom.Circle([5e6, 7e6], 1e6)));
 
 function lyr_v4_style_text(feature){
 	style_text = new ol.style.Text({
@@ -285,13 +283,15 @@ $(document).ready(function(){
 		}
 	}));
 
+	map.addOverlay(lyr_o1)
+
 	$('#popup-closer').click(function() {
 		lyr_o1.setPosition(undefined);
 		$(this).blur();
 		return false;
 	});
 
-	map.addOverlay(lyr_o1)
+	
 	map.on('singleclick', function(e) {
 		var coordinate = e.coordinate;
 		var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326'));
@@ -329,7 +329,7 @@ $(document).ready(function(){
 			$('#box2').append('<form action="add_to_my_list.php" method="post"><button type="button" class="btn btn-primary" id="add_to_my_list">Add to My List</button></form>');
 		};
 
-		$('#delete_from_my_list').click(function (e) {
+		$('#delete_from_my_list').click(function () {
 			var request = new XMLHttpRequest();
 			request.open("GET", "data/preference.geojson", false);
 			request.send(null)
@@ -352,7 +352,6 @@ $(document).ready(function(){
 				"type": "Feature",
 		    };
 		    index_pop = geojsonObject.features.indexOf(selectedObject);
-		    console.log(index_pop);
 		    geojsonObject.features.splice(index_pop, 1);
 
 			$.ajax({
@@ -363,6 +362,7 @@ $(document).ready(function(){
 		            geojson : geojsonObject,
 		        },
 		    });
+		    $(document).reload();
 		});
 
 		$('#add_to_my_list').click(function (e) {
@@ -402,14 +402,24 @@ $(document).ready(function(){
 		});
 	});
 
-
 	$('#go').click(function () {
-		console.log(lyr_v1.getProperties());
-		for(var i = 0; i < lyr_v1.features.length; i++) { 
-		    if(lyr_v1.features[i].attributes.searchedAttribute == 'BurgerKing'){ 
-		    	selectFeatureControl.select(lyr_v1.features[i]); 
-		    	break; 
-			} 
+		// debugger;
+		var value_target = $('#select1').val();
+		for(var f = 0; f < lyr_v1.getSource().getFeatures().length; f++) {
+			if(lyr_v1.getSource().getFeatures()[f].getProperties()['name'] == value_target) {
+				console.log(lyr_v1.getSource().getFeatures()[f].getProperties()['name']);
+				var coord = lyr_v1.getSource().getFeatures()[f].getGeometry().getCoordinates();
+				console.log(coord);
+				var view = new ol.View({
+					center: coord,
+					zoom: 13,
+				});
+				map.setView(view);
+				view.animate({
+					center: coord,
+					duration: 3000,
+				});
+			};
 		};
 	});
 });
