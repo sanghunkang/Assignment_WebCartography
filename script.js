@@ -220,6 +220,7 @@ function onMouseMove(browserEvent) {
 // 	source: source_v4
 // });
 
+
 // MAP
 var map = new ol.Map({
 	target: 'map',
@@ -238,22 +239,6 @@ $(document).ready(function(){
 		"BASIC",
 		"C",
 		"C++",
-		"Clojure",
-		"COBOL",
-		"ColdFusion",
-		"Erlang",
-		"Fortran",
-		"Groovy",
-		"Haskell",
-		"Java",
-		"JavaScript",
-		"Lisp",
-		"Perl",
-		"PHP",
-		"Python",
-		"Ruby",
-		"Scala",
-		"Scheme",
 	];
 	$( '#tags' ).autocomplete({
 		source: availableTags
