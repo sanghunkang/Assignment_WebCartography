@@ -47,20 +47,16 @@
 <div class="row">
 	<div class="col-sm-3 col-md-4 sidebar">
 		<form class="form-inline">
-	    <label>Action type &nbsp;</label>
-	      <select id="type" class="form-control">
-	        <option value="click" selected>Click</option>
-	        <option value="singleclick">Single-click</option>
-	        <option value="pointermove">Hover</option>
-	        <option value="altclick">Alt+Click</option>
-	        <option value="none">None</option>
-	      </select>
-	    <span id="status">&nbsp;0 selected features</span>
-	    <br>
-	    <div class="ui-widget">
-			  <label for="tags">Tags: </label>
-			  <input id="tags">
-			</div>
+		  <div class="col-lg-12">
+		    <div class="input-group">
+		    	<label for="tags">Tags: </label>
+		      <input type="text" class="form-control" placeholder="Search for..." id="tags">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-lg-6 -->
+		  <br>
 	    <label>Style &nbsp;</label>
 	    <select class="form-control selectpicker" data-live-search="true" id="select1" placeholder="Search...">
 	    	<option data-tokens="ketchup mustard"></option>';
@@ -84,13 +80,6 @@
 			<button type="button" class="btn btn-primary" id="go">go</button>
 			<br>
 	  </form>
-		
-		<ul class="nav nav-sidebar">
-			<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-			<li><a target="_self" href="#">Reports</a></li>
-			<li><a target="_self" href="#">Analytics</a></li>
-			<li><a target="_self" href="#">Export</a></li>
-		</ul>
 		<div id="box1">
 			<h3>Some Box</h3>
 		</div>
