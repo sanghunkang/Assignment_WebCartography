@@ -57,18 +57,29 @@
 	      </select>
 	    <span id="status">&nbsp;0 selected features</span>
 	    <br>
-	    <label>Style &nbsp;</label>
-	    <select class="form-control selectpicker" data-live-search="true" id="select1"></select>
-	    <br>
 	    <div class="ui-widget">
 			  <label for="tags">Tags: </label>
 			  <input id="tags">
 			</div>
+	    <label>Style &nbsp;</label>
+	    <select class="form-control selectpicker" data-live-search="true" id="select1" placeholder="Search...">
+	    	<option data-tokens="ketchup mustard"></option>';
+	    </select>
+	    <br>
 	    <label>Price &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select2"></select>
+			<select class="form-control selectpicker" data-live-search="true" id="select2">
+				<option data-tokens="ketchup mustard"></option>';
+			</select>
 			<br>
 			<label>Point of Interest &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select3"></select>
+			<select class="form-control selectpicker" data-live-search="true" id="select3">
+				<option data-tokens="ketchup mustard"></option>';
+			</select>
+			<br>
+			<label>Point of Interest &nbsp;</label>
+			<select class="form-control selectpicker" data-live-search="true" id="select4">
+				<option data-tokens="ketchup mustard"></option>';
+			</select>
 			<br>
 			<button type="button" class="btn btn-primary" id="go">go</button>
 			<br>
@@ -84,9 +95,6 @@
 			<h3>Some Box</h3>
 		</div>
 		<div id="box2">
-			<form action="add_to_my_list.php" method="post">
-				<button type="button" class="btn btn-danger" id="add_to_my_list">Add to My List</button>
-			</form>
 		</div>
 	</div>
 
@@ -106,7 +114,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src=https://openlayers.org/en/v4.0.1/build/ol.js type=text/javascript></script>
 <script src=script.js type=text/javascript></script>
-
 
 </body>
 
