@@ -67,21 +67,11 @@
 				<option data-tokens="ketchup mustard"></option>';
 			</select>
 			<br>
-			<label>Point of Interest &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select3">
-				<option data-tokens="ketchup mustard"></option>';
-			</select>
-			<br>
-			<label>Point of Interest &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select4">
-				<option data-tokens="ketchup mustard"></option>';
-			</select>
-			<br>
 			<button type="button" class="btn btn-primary" id="go">go</button>
 			<br>
 	  </form>
 		<div id="box1">
-			<h3>Some Box</h3>
+			<h3>POTENTIAL SLOT FOR ADS</h3>
 		</div>
 		<div id="box2">
 		</div>

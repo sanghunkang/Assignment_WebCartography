@@ -267,13 +267,22 @@ $(document).ready(function(){
 		};
 	});
 
-	$.getJSON('data/preference.geojson', function(response) {
-		for(var i =0; i < 10; i ++) {
-			var name_res = response.features[i].properties.name;
-			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
-			$('#select3').append( html ).selectpicker('refresh');
-		};
-	});
+	// $.getJSON('data/preference.geojson', function(response) {
+	// 	for(var i =0; i < 10; i ++) {
+	// 		var name_res = response.features[i].properties.name;
+	// 		var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
+	// 		$('#select3').append( html ).selectpicker('refresh');
+	// 	};
+	// });
+
+	function switch_button(is_favorite){
+		$('#box2').empty();
+		if( is_favorite == "TRUE"){
+			$('#box2').append('<form action="delete_from_my_list.php" method="post"><button type="button" class="btn btn-danger" id="delete_from_my_list">Delete from My List</button></form>');
+		} else {
+			$('#box2').append('<form action="add_to_my_list.php" method="post"><button type="button" class="btn btn-primary" id="add_to_my_list">Add to My List</button></form>');
+		}
+	};
 
 	var lyr_o1 = new ol.Overlay(({
 		element: document.getElementById('popup'),
@@ -314,102 +323,104 @@ $(document).ready(function(){
 		$('#box1').append('<p id="address_res">' + properties['address'] + '</p>');
 		$('#box1').append('<p id="id_res">' + properties['id'] + '</p>');
 		$('#box1').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
-		$('#box1').append('<p>' + properties['is_favorite'] + '</p>');
 
 		$('#popup-content').empty();
 		$('#popup-content').append('<p>You clicked here:</p><code>' + properties['name'] + '</code>');
 		
 		lyr_o1.setPosition(coordinate);
-		console.log(properties['is_favorite']);
-		if( properties['is_favorite'] == "TRUE" ) {
-			$('#box2').empty();
-			$('#box2').append('<form action="delete_from_my_list.php" method="post"><button type="button" class="btn btn-danger" id="delete_from_my_list">Delete from My List</button></form>');		
-		} else {
-			$('#box2').empty();
-			$('#box2').append('<form action="add_to_my_list.php" method="post"><button type="button" class="btn btn-primary" id="add_to_my_list">Add to My List</button></form>');
-		};
+		switch_button(properties['is_favorite']);
 
 		$('#delete_from_my_list').click(function () {
 			var request = new XMLHttpRequest();
-			request.open("GET", "data/preference.geojson", false);
+			request.open('GET', 'data/preference.geojson', false);
 			request.send(null)
 			var geojsonObject = JSON.parse(request.responseText);
 			var coordinate_write = ol.proj.transform(coordinate,'EPSG:3857','EPSG:4326');
-			coordinate_write =  [parseFloat(coordinate_write[0]), parseFloat(coordinate_write[1])];
 
 			var selectedObject = {
-				"geometry":{
-					"coordinates": [parseFloat(coordinate_write[0]), parseFloat(coordinate_write[1])],
-					"type": "Point",
+				'geometry':{
+					'coordinates': ol.proj.transform(coordinate,'EPSG:3857','EPSG:4326'),
+					'type': 'Point',
 				},
-				"properties": {
-					"address": properties['address'], 
-					"id": properties['id'], 
-					"name": properties['name'],
-					"subCategory": properties['subCategory'],
-					"is_favorite": properties['is_favorite'],
+				'properties': {
+					'address': properties['address'], 
+					'id': properties['id'], 
+					'name': properties['name'],
+					'subCategory': properties['subCategory'],
+					'is_favorite': properties['is_favorite'],
 				}, 
-				"type": "Feature",
+				'type': 'Feature',
 		    };
-		    index_pop = geojsonObject.features.indexOf(selectedObject);
+		    var index_pop = geojsonObject.features.indexOf(selectedObject);
 		    geojsonObject.features.splice(index_pop, 1);
 
 			$.ajax({
-		        type : "POST",
-		        url : "delete_from_my_list.php",
+		        type : 'POST',
+		        url : 'delete_from_my_list.php',
 		        dataType : 'geojson',
 		        data : {
 		            geojson : geojsonObject,
 		        },
+		        success: [
+		        	switch_button(),
+		        ],
 		    });
-		    $(document).reload();
+			console.log(source_v4);
+			source_v4.refresh();
+			console.log(source_v4);
 		});
 
 		$('#add_to_my_list').click(function (e) {
 			var request = new XMLHttpRequest();
-			request.open("GET", "data/preference.geojson", false);
+			request.open('GET', 'data/preference.geojson', false);
 			request.send(null)
 			var geojsonObject = JSON.parse(request.responseText);
 			var coordinate_write = ol.proj.transform(coordinate,'EPSG:3857','EPSG:4326');
-			console.log(coordinate_write);
-			coordinate_write =  [parseFloat(coordinate_write[0]), parseFloat(coordinate_write[1])];
-			console.log(coordinate_write);
 
 			var selectedObject = {
-				"geometry":{
-					"coordinates": [parseFloat(coordinate_write[0]), parseFloat(coordinate_write[1])],
-					"type": "Point",
+				'geometry':{
+					'coordinates': [parseFloat(coordinate_write[0]), parseFloat(coordinate_write[1])],
+					'type': 'Point',
 				},
-				"properties": {
-					"address": properties['address'], 
-					"id": properties['id'], 
-					"name": properties['name'],
-					"subCategory": properties['subCategory'],
-					"is_favorite": "TRUE",
+				'properties': {
+					'address': properties['address'], 
+					'id': properties['id'], 
+					'name': properties['name'],
+					'subCategory': properties['subCategory'],
+					'is_favorite': 'TRUE',
 				}, 
-				"type": "Feature",
+				'type': 'Feature',
 		    };
-		    geojsonObject["features"].push( selectedObject );
+		    if( geojsonObject.features.indexOf(selectedObject) == -1){
+		    	geojsonObject['features'].push( selectedObject );
+		    } else {
+		    	console.log('This features is already inserted');
+		    };
 
 			$.ajax({
-		        type : "POST",
-		        url : "add_to_my_list.php",
+		        type : 'POST',
+		        url : 'add_to_my_list.php',
 		        dataType : 'geojson',
 		        data : {
 		            geojson : geojsonObject,
 		        },
+		        success: [
+		        	switch_button("TRUE"),
+		        ],
 		    });
+			console.log(source_v4);
+			source_v4.refresh();
+			console.log(source_v4);
 		});
 	});
 
 	$('#go').click(function () {
-		// debugger;
+		$('#popup-content').empty();
 		var value_target = $('#select1').val();
-		for(var f = 0; f < lyr_v1.getSource().getFeatures().length; f++) {
-			if(lyr_v1.getSource().getFeatures()[f].getProperties()['name'] == value_target) {
-				console.log(lyr_v1.getSource().getFeatures()[f].getProperties()['name']);
-				var coord = lyr_v1.getSource().getFeatures()[f].getGeometry().getCoordinates();
-				console.log(coord);
+		var features = lyr_v1.getSource().getFeatures()
+		for(var i = 0; i < features.length; i++) {
+			if(features[i].getProperties()['name'] == value_target) {
+				var coord = features[i].getGeometry().getCoordinates();
 				var view = new ol.View({
 					center: coord,
 					zoom: 13,
