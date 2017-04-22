@@ -46,28 +46,27 @@
 <div class="container-fluid">
 <div class="row">
 	<div class="col-sm-3 col-md-4 sidebar">
-		<form class="form-inline">
-		  <div class="col-lg-12">
-		    <div class="input-group">
-		    	<label for="tags">Tags: </label>
-		      <input type="text" class="form-control" placeholder="Search for..." id="tags">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button">Go!</button>
-		      </span>
-		    </div><!-- /input-group -->
-		  </div><!-- /.col-lg-6 -->
-		  <br>
+		<form class="form-inline" autocomplete="on">
+		  <label for="tags">Filter</label>
 	    <label>Style &nbsp;</label>
 	    <select class="form-control selectpicker" data-live-search="true" id="select1" placeholder="Search...">
 	    	<option data-tokens="ketchup mustard"></option>';
 	    </select>
 	    <br>
-	    <label>Price &nbsp;</label>
+	    <label>Ratings </label>
+			<select class="selectpicker" id="select2">
+				<option><span>★</span></option>
+				<option><span>★</span><span>★</span></option>
+				<option><span>★</span><span>★</span><span>★</span></option>
+				<option><span>★</span><span>★</span><span>★</span><span>★</span></option>
+				<option><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></option>
+			</select>
+			<label>From my Favourites &nbsp;</label>
 			<select class="form-control selectpicker" data-live-search="true" id="select2">
 				<option data-tokens="ketchup mustard"></option>';
 			</select>
 			<br>
-			<button type="button" class="btn btn-primary" id="go">go</button>
+			<button type="button" class="btn btn-primary" id="go">GO!</button>
 			<br>
 	  </form>
 		<div id="box1">
@@ -79,7 +78,6 @@
 
 
 <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main" id="map">
-	<h1 class="page-header">Today's Recommendations Bring me... &nbsp;</h1>
 	<div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
     <div id="popup-content"></div>
