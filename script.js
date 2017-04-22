@@ -49,7 +49,6 @@ var source_v1 = new ol.source.Vector({
 
 function styleFunction_lyr_v1(feature){
 	var styles = new ol.style.Style({
-		// text: lyr_v1_style_text(feature),
 		image: styler_icon(feature),
 	});
 	return styles;
@@ -68,41 +67,6 @@ var lyr_v1 = new ol.layer.Vector({
 	style: style_lyr_v1,
 });
 
-// LAYER VECTOR4
-var source_v4 = new ol.source.Vector({
-	url: 'data/preference.geojson',
-	projection: 'EPSG:4326',
-	format: new ol.format.GeoJSON(),
-});
-
-function lyr_v4_style_image(feature) {
-	var style_image = new ol.style.Icon({
-		scale: 0.1,
-		src: 'assets/favourite.png',
-	});
-	return style_image
-};
-
-function styleFunction_lyr_v4(feature){
-	var styles = new ol.style.Style({
-		// text: lyr_v4_style_text(feature),
-		image: lyr_v4_style_image(feature),
-	});
-	return styles;
-};
-
-var style_lyr_v4 = function(feature) {
-	var geom = feature.getGeometry().getType();
-	if( geom == 'Point' ) {
-		var styles = styleFunction_lyr_v4(feature);
-	};
-	return styles;
-};
-
-var lyr_v4 = new ol.layer.Vector({
-	source: source_v4,
-	style: style_lyr_v4,
-});
 
 var selectClick = new ol.interaction.Select({
 	condition: ol.events.condition.click
@@ -115,7 +79,7 @@ var selectPointerMove = new ol.interaction.Select({
 // MAP
 var map = new ol.Map({
 	target: 'map',
-	layers: [lyr_tile, lyr_v1, lyr_v4],
+	layers: [lyr_tile, lyr_v1],
 	view: new ol.View({
 		center: ol.proj.transform([13.327091, 52.512181],'EPSG:4326','EPSG:3857'),
 		zoom: 13,
@@ -123,23 +87,6 @@ var map = new ol.Map({
 });
 
 $(document).ready(function(){
-	$.getJSON('data/res.geojson', function(response) {
-		var list_types = []
-		for(var i =0; i < 10; i ++) {
-			var name_res = response.features[i].properties.name;
-			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
-			$('#select1').append( html ).selectpicker('refresh');
-		};
-	});
-
-	$.getJSON('data/poi.geojson', function(response) {
-		for(var i =0; i < 10; i ++) {
-			var name_res = response.features[i].properties.name;
-			var html = '<option data-tokens="ketchup mustard">'+ name_res +'</option>';
-			$('#select2').append( html ).selectpicker('refresh');
-		};
-	});
-
 	function switch_button(is_favorite){
 		$('#box2').empty();
 		if( is_favorite == "TRUE"){
@@ -148,22 +95,6 @@ $(document).ready(function(){
 			$('#box2').append('<form action="action_preference.php" method="post"><button type="button" class="btn btn-primary" id="add_to_my_list">Add to My List</button></form>');
 		}
 	};
-
-	var lyr_o1 = new ol.Overlay(({
-		element: document.getElementById('popup'),
-		autoPan: true,
-		autoPanAnimation: {
-			duration: 250
-		}
-	}));
-
-	map.addOverlay(lyr_o1)
-
-	$('#popup-closer').click(function() {
-		lyr_o1.setPosition(undefined);
-		$(this).blur();
-		return false;
-	});
 
 /* make_object_from_selected
 ** Function to
@@ -186,6 +117,8 @@ $(document).ready(function(){
 				'subCategory': properties['subCategory'],
 				'category': properties['category'],
 				'is_favorite': properties['is_favorite'],
+				'num_stars': properties['num_stars'],
+				'price': properties['price'],
 			}, 
 			'type': 'Feature',
 	    };
@@ -219,7 +152,7 @@ $(document).ready(function(){
 		request.send(null);
 		geojsonObject = JSON.parse(request.responseText);
 		return geojsonObject;
-	}
+	};
 /* update_geojson
 ** 
 */
@@ -248,6 +181,63 @@ $(document).ready(function(){
 		return html_stars;
 	};
 
+	function make_popup(properties, coordinate){
+		$('#popup-content').empty();
+		$('#popup-content').append('<h3="name_res">' + properties['name'] + '</h3>');
+		$('#popup-content').append('<p id="address_res">' + properties['address'] + '</p>');
+		$('#popup-content').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
+		$('#popup-content').append('<div id="stars_popup"></div>');
+		lyr_o1.setPosition(coordinate);
+	};
+
+	var lyr_o1 = new ol.Overlay(({
+		element: document.getElementById('popup'),
+		autoPan: true,
+		autoPanAnimation: {
+			duration: 250
+		}
+	}));
+
+	map.addOverlay(lyr_o1)
+
+	$('#popup-closer').click(function() {
+		lyr_o1.setPosition(undefined);
+		$(this).blur();
+		return false;
+	});
+
+	var geojsonObject = get_geojsonObject();
+	var list_types = [];
+	for(var i =0; i < geojsonObject.features.length; i ++) {
+		var name = geojsonObject.features[i].properties['name'];
+		
+		// Make restaurant type dropdown
+		if (geojsonObject.features[i].properties['category'] == "res") {
+			var type = geojsonObject.features[i].properties['subCategory'];
+			if (list_types.indexOf(type) == -1){
+				var html = '<option>' + geojsonObject.features[i].properties['subCategory'] + '</option>';
+				$('#select_subCategory').append(html);
+				list_types.push(type);
+			}
+		};
+
+		// Make my favourites dropdown
+		if (geojsonObject.features[i].properties['is_favorite'] == "TRUE"){
+			var html = '<option>' + name + '</option>';
+			$('#select_favourites').append(html);
+		};
+
+		// Make POIs dropdown
+		if (geojsonObject.features[i].properties['category'] == "poi"){
+			var html = '<option>' + name + '</option>';
+			$('#select_pois').append(html);
+		};
+	};
+
+
+
+	/* Too many erros are invoked by this funcionality.
+	**
 	map.addInteraction(selectPointerMove);
 	selectPointerMove.on('select', function(e) {
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
@@ -265,20 +255,22 @@ $(document).ready(function(){
 
 		lyr_o1.setPosition(coordinate);
 	});
+	*/
 
 	map.addInteraction(selectClick);
 	selectClick.on('select', function(e) {
 		var coordinate = e.selected[0].getGeometry().getCoordinates();
 		var properties = e.selected[0].getProperties();
 		selectedObject = get_object_from_selected(e.selected[0]);
+		make_popup(properties, coordinate);
 
 		$('#box1').empty();
 		$('#box1').append('<h3="name_res">' + properties['name'] + '</h3>');
 		$('#box1').append('<p id="address_res">' + properties['address'] + '</p>');
 		$('#box1').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
-		$('#box1').append('<div><button type="button" class="btn btn-default btn-sm" id="star_plus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button><div id="stars_box1"></div><button type="button" class="btn btn-default btn-sm" id="star_minus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><div id="stars_box1"></div>');
+		$('#box1').append('<div style="display: inline-block;"><button type="button" class="btn btn-default btn-sm" id="star_plus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button><div id="stars_box1"></div><button type="button" class="btn btn-default btn-sm" id="star_minus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><div id="stars_box1"></div>');
 
-		lyr_o1.setPosition(coordinate);
+		
 		switch_button(properties['is_favorite']);
 
 		var html_stars = make_html_stars(properties['num_stars']);
@@ -357,25 +349,74 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#go').click(function () {
+	$('#filter').click(function () {		
+		var subCategory = $('#select_subCategory').val();
+		
+		var num_stars = $('#select_num_stars').val();
+		if (subCategory == 'All Types' && num_stars.toString() == 'All Ratings') {
+			var style_lyr_v1_filter = function(feature) {
+				var styles = styleFunction_lyr_v1(feature);
+				return styles;
+			};
+		} else {
+			var style_lyr_v1_filter = function(feature) {
+				if (feature.getProperties()['subCategory'] == subCategory) {
+					var styles = styleFunction_lyr_v1(feature);
+				};
+				return styles;
+			};
+		};
+
+		lyr_v1.setStyle(style_lyr_v1_filter);
+	});
+	
+	// On click '#go_favourites'
+	$('#go_favourites').click(function () {
 		$('#popup-content').empty();
-		var value_target = $('#select1').val();
+		var value_target = $('#select_favourites').val();
 		var features = lyr_v1.getSource().getFeatures();
 
 		for(var i = 0; i < features.length; i++) {
 			if(features[i].getProperties()['name'] == value_target) {
-				var coord = features[i].getGeometry().getCoordinates();
+				var coordinate = features[i].getGeometry().getCoordinates();
 				var view = new ol.View({
-					center: coord,
+					center: coordinate,
 					zoom: 13,
 				});
 				map.setView(view);
 				/*
 				view.animate({
-					center: coord,
+					center: coordinate,
 					duration: 3000,
 				});
 				*/
+				var properties = features[i].getProperties()
+			};
+		};
+		make_popup(properties, coordinate);
+	});
+
+	// On click '#go_pois'
+	$('#go_pois').click(function () {
+		$('#popup-content').empty();
+		var value_target = $('#select_pois').val();
+		var features = lyr_v1.getSource().getFeatures();
+
+		for(var i = 0; i < features.length; i++) {
+			if(features[i].getProperties()['name'] == value_target) {
+				var coordinate = features[i].getGeometry().getCoordinates();
+				var view = new ol.View({
+					center: coordinate,
+					zoom: 13,
+				});
+				map.setView(view);
+				/*
+				view.animate({
+					center: coordinate,
+					duration: 3000,
+				});
+				*/
+				var properties = features[i].getProperties()
 			};
 		};
 	});

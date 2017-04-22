@@ -47,27 +47,30 @@
 <div class="row">
 	<div class="col-sm-3 col-md-4 sidebar">
 		<form class="form-inline" autocomplete="on">
-		  <label for="tags">Filter</label>
-	    <label>Style &nbsp;</label>
-	    <select class="form-control selectpicker" data-live-search="true" id="select1" placeholder="Search...">
-	    	<option data-tokens="ketchup mustard"></option>';
-	    </select>
-	    <br>
-	    <label>Ratings </label>
-			<select class="selectpicker" id="select2">
-				<option><span>★</span></option>
-				<option><span>★</span><span>★</span></option>
-				<option><span>★</span><span>★</span><span>★</span></option>
-				<option><span>★</span><span>★</span><span>★</span><span>★</span></option>
-				<option><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></option>
-			</select>
-			<label>From my Favourites &nbsp;</label>
-			<select class="form-control selectpicker" data-live-search="true" id="select2">
-				<option data-tokens="ketchup mustard"></option>';
-			</select>
-			<br>
-			<button type="button" class="btn btn-primary" id="go">GO!</button>
-			<br>
+			<label>Filter by...</label><br>
+	    <label>Restaurant Type </label><br>
+	    <select class="selectpicker" id="select_subCategory">
+	    	<option>All Types</option>
+	    </select><br>	    
+	    <label>Ratings </label><br>
+			<select class="selectpicker" id="select_num_stars">
+				<option>All Ratings</option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select><br>
+			<button type="button" class="btn btn-primary" id="filter">Filter!</button><br><br>
+<!-- https://silviomoreto.github.io/bootstrap-select/ -->
+		  <label>Select from My Favourites </label><br>
+		  <select class="selectpicker" id="select_favourites">
+			</select><br>
+			<button type="button" class="btn btn-primary" id="go_favourites">GO!</button><br>
+			<label>Bring me Somewhere around...</label><br>
+		  <select class="selectpicker" id="select_pois">
+			</select><br>
+			<button type="button" class="btn btn-primary" id="go_pois">GO!</button><br>
 	  </form>
 		<div id="box1">
 			<h3>POTENTIAL SLOT FOR ADS</h3>

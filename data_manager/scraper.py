@@ -6,13 +6,13 @@ from selenium.webdriver.common.keys import Keys
 
 driver = webdriver.Firefox()
 
-direc = os.path.dirname(os.getcwd()) +"\\data_manager\\"
+direc = os.path.dirname(os.getcwd())
 
 collection = []
 # with open(direc + "urls_res.csv", "r") as fo:
 # with open(direc + "urls_poi.csv", "r") as fo:
 for category in ["res", "poi"]:
-	with open(direc + "urls_" + category + ".csv", "r") as fo:
+	with open(direc + "\\data_manager\\urls_" + category + ".csv", "r") as fo:
 		readline = "readline"
 		
 		for i in range(10):
@@ -33,6 +33,7 @@ for category in ["res", "poi"]:
 				"id": text_json['id'],
 				"category": category,
 				"num_stars": 3,
+				"price": 3,
 				"is_favorite": "FALSE",
 			}
 			my_point = Point((text_json['lng'], text_json['lat']))
@@ -41,7 +42,7 @@ for category in ["res", "poi"]:
 driver.quit()
 
 # with open(direc + "res.geojson", "w") as fo:
-with open(direc + "db.geojson", "w") as fo:
+with open(direc + "\\data\\db.geojson", "w") as fo:
 # with open(direc + "poi.geojson", "w") as fo:
 	my_featureCollection = FeatureCollection(collection)
 	dump = dumps(my_featureCollection, sort_keys=True)
