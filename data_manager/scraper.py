@@ -9,13 +9,11 @@ driver = webdriver.Firefox()
 direc = os.path.dirname(os.getcwd())
 
 collection = []
-# with open(direc + "urls_res.csv", "r") as fo:
-# with open(direc + "urls_poi.csv", "r") as fo:
 for category in ["res", "poi"]:
 	with open(direc + "\\data_manager\\urls_" + category + ".csv", "r") as fo:
 		readline = "readline"
 		
-		for i in range(10):
+		for i in range(20):
 		# while len(readline) > 0:
 			readline = fo.readline()
 			driver.get(readline)
@@ -41,9 +39,7 @@ for category in ["res", "poi"]:
 			collection.append(my_feature)
 driver.quit()
 
-# with open(direc + "res.geojson", "w") as fo:
 with open(direc + "\\data\\db.geojson", "w") as fo:
-# with open(direc + "poi.geojson", "w") as fo:
 	my_featureCollection = FeatureCollection(collection)
 	dump = dumps(my_featureCollection, sort_keys=True)
 	fo.write(dump)

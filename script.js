@@ -1,8 +1,7 @@
 // Author		: Kang, Sanghun
 // Contact		: sanghunkang.dev@gmail.com
 // Started on 	: 20170322(yyyymmdd)
-// Last modified: 20170406(yyyymmdd)
-// project 		: 20170322
+// Last modified: 20170423yyyymmdd)
 
 
 /* lyr-tile
@@ -16,10 +15,8 @@ var lyr_tile = new ol.layer.Tile({
 
 /* styler_icon
 ** Function for styling icons depending on the specific attributes of features.
-** Of most importance is the type of 
-** For the determination of which icon to use, three
 ** If 'is_favorite' is "TRUE", then a star will be shown on its position.
-** Otherwise, either an icon with culinaries - representing a restaurant, = or 
+** Otherwise, either an icon with culinaries, - representing a restaurant - or 
 ** an icon with an exclamation mark - representing a POI, will be shown 
 ** following the value of 'category'.
 */
@@ -130,8 +127,11 @@ $(document).ready(function(){
 ** Its return will be used to identify the index if its position in the geoJSON
 ** file, to further pop itself out of there and re-insert after updating its 
 ** 'is_favorite' value
+**
 ** Help from:
 ** http://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+**
+** The idea came from there, and modified to fit here.
 */
 	function find_index_by_id(geojsonObject, selectedObject) {
 		var id = selectedObject.properties['id'];
@@ -153,9 +153,7 @@ $(document).ready(function(){
 		geojsonObject = JSON.parse(request.responseText);
 		return geojsonObject;
 	};
-/* update_geojson
-** 
-*/
+
 	function update_geojson(geojsonObject) {
 		$.ajax({
 	        type : 'POST',
@@ -181,6 +179,12 @@ $(document).ready(function(){
 		return html_stars;
 	};
 
+/* Help from:
+** http://openlayers.org/en/latest/examples/popup.html?q=popup
+**
+** The way a popup is realised was quite fundamental in implementing this
+** functionality, although I had to go quite further from there.
+*/
 	function make_popup(properties, coordinate){
 		$('#popup-content').empty();
 		$('#popup-content').append('<h3="name_res">' + properties['name'] + '</h3>');
@@ -190,6 +194,7 @@ $(document).ready(function(){
 		lyr_o1.setPosition(coordinate);
 	};
 
+	// Make containers for the popup
 	var lyr_o1 = new ol.Overlay(({
 		element: document.getElementById('popup'),
 		autoPan: true,
@@ -235,7 +240,6 @@ $(document).ready(function(){
 	};
 
 
-
 	/* Too many erros are invoked by this funcionality.
 	**
 	map.addInteraction(selectPointerMove);
@@ -264,18 +268,19 @@ $(document).ready(function(){
 		selectedObject = get_object_from_selected(e.selected[0]);
 		make_popup(properties, coordinate);
 
+		// Add some contents to the box1
 		$('#box1').empty();
 		$('#box1').append('<h3="name_res">' + properties['name'] + '</h3>');
 		$('#box1').append('<p id="address_res">' + properties['address'] + '</p>');
 		$('#box1').append('<p id="subCategory_res">' + properties['subCategory'] + '</p>');
-		$('#box1').append('<div style="display: inline-block;"><button type="button" class="btn btn-default btn-sm" id="star_plus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button><div id="stars_box1"></div><button type="button" class="btn btn-default btn-sm" id="star_minus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><div id="stars_box1"></div>');
+		$('#box1').append('<div style="display: inline-block;"><button type="button" class="btn btn-default btn-sm" id="star_minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button><div id="stars_box1"></div><button type="button" class="btn btn-default btn-sm" id="star_plus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button><div id="stars_box1"></div>');
 
-		
 		switch_button(properties['is_favorite']);
 
 		var html_stars = make_html_stars(properties['num_stars']);
 		$('#stars_box1').append(html_stars);
 
+		// Action to add a star
 		$('#star_plus').click(function () {
 			var num_stars = properties['num_stars'];
 			if (num_stars <= 5) {
@@ -297,6 +302,7 @@ $(document).ready(function(){
 			update_geojson(geojsonObject);
 		});
 
+		// Action to remove a star
 		$('#star_minus').click(function () {
 			var num_stars = properties['num_stars'];
 			if (num_stars >= 0){
@@ -350,23 +356,39 @@ $(document).ready(function(){
 	});
 
 	$('#filter').click(function () {		
-		var subCategory = $('#select_subCategory').val();
-		
+		var subCategory = $('#select_subCategory').val();		
 		var num_stars = $('#select_num_stars').val();
-		if (subCategory == 'All Types' && num_stars.toString() == 'All Ratings') {
+
+		// Categorised into 4 cases
+		if (subCategory == 'All Types' && num_stars == 'All Ratings') {
 			var style_lyr_v1_filter = function(feature) {
 				var styles = styleFunction_lyr_v1(feature);
 				return styles;
 			};
-		} else {
+		} else if (subCategory == 'All Types'){
+			var style_lyr_v1_filter = function(feature) {
+				if (feature.getProperties()['num_stars'].toString() == num_stars) {
+					var styles = styleFunction_lyr_v1(feature);
+				};
+				return styles;
+			};
+		} else if (num_stars == 'All Ratings'){
 			var style_lyr_v1_filter = function(feature) {
 				if (feature.getProperties()['subCategory'] == subCategory) {
 					var styles = styleFunction_lyr_v1(feature);
 				};
 				return styles;
 			};
+		} else {
+			var style_lyr_v1_filter = function(feature) {
+				if (feature.getProperties()['subCategory'] == subCategory && feature.getProperties()['num_stars'].toString() == num_stars) {
+					var styles = styleFunction_lyr_v1(feature);
+				};
+				return styles;
+			};
 		};
 
+		// Reset the style
 		lyr_v1.setStyle(style_lyr_v1_filter);
 	});
 	

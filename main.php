@@ -1,5 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- 
+Help from:
+http://getbootstrap.com/examples/dashboard/
 
+Big structure came from here
+-->
 <head>
 <title>Exercise for Web Cartography</title>
 <base href="http://localhost/exerciseWC/" target="_blank">	
@@ -49,6 +54,12 @@
 		<form class="form-inline" autocomplete="on">
 			<label>Filter by...</label><br>
 	    <label>Restaurant Type </label><br>
+<!--
+Help from:
+https://silviomoreto.github.io/bootstrap-select/
+
+I utilised "selectpicker" class
+-->
 	    <select class="selectpicker" id="select_subCategory">
 	    	<option>All Types</option>
 	    </select><br>	    
@@ -62,14 +73,13 @@
 				<option>5</option>
 			</select><br>
 			<button type="button" class="btn btn-primary" id="filter">Filter!</button><br><br>
-<!-- https://silviomoreto.github.io/bootstrap-select/ -->
 		  <label>Select from My Favourites </label><br>
 		  <select class="selectpicker" id="select_favourites">
-			</select><br>
+			</select>
 			<button type="button" class="btn btn-primary" id="go_favourites">GO!</button><br>
 			<label>Bring me Somewhere around...</label><br>
 		  <select class="selectpicker" id="select_pois">
-			</select><br>
+			</select>
 			<button type="button" class="btn btn-primary" id="go_pois">GO!</button><br>
 	  </form>
 		<div id="box1">

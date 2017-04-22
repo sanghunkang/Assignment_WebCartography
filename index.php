@@ -1,5 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- 
+Help from:
+http://getbootstrap.com/examples/cover/
 
+I just slightly modified
+ -->
 <head>
 <title>Assignment for Web Cartography</title>
 <base href="http://localhost/exerciseWC/" target="_blank">	
@@ -20,7 +25,7 @@
 		<div class="cover-container">
 			<div class="masthead clearfix">
 				<div class="inner">
-		  		<h3 class="masthead-brand">Cover</h3>
+		  		<h3 class="masthead-brand"></h3>
 				  <nav>
 						<ul class="nav masthead-nav">
 						  <li class="active"><a href="#">Home</a></li>
@@ -33,7 +38,7 @@
 		  <div class="inner cover">
 				<h1 class="cover-heading">Assignment for Web Cartography</h1>
 				<p class="lead">I hope it be enjoyable, although I struggled quite much for building this website</p>
-				<p class="lead"><a target="_self" href="main.php" class="btn btn-lg btn-default">Learn more</a></p>
+				<p class="lead"><a target="_self" href="main.php" class="btn btn-lg btn-default">Click Me!</a></p>
 		  </div>
 		  <div class="mastfoot">
 				<div class="inner">
